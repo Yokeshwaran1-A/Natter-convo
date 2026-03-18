@@ -7,12 +7,32 @@ const Group = require('../models/Group');
 // Store online users: userId -> socketId
 const onlineUsers = new Map();
 
+const rawAllowedOrigins =
+  process.env.CORS_ORIGINS || process.env.FRONTEND_URL || '';
+const allowedOrigins = rawAllowedOrigins
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const socketCors = {
+  origin: (origin, callback) => {
+    if (!origin) {
+      return callback(null, true);
+    }
+    if (allowedOrigins.length === 0) {
+      return callback(null, true);
+    }
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('Not allowed by CORS'));
+  },
+  methods: ['GET', 'POST']
+};
+
 module.exports = (server) => {
   const io = socketIo(server, {
-    cors: {
-      origin: '*', // In production, set to your frontend URL
-      methods: ['GET', 'POST']
-    }
+    cors: socketCors
   });
 
   // Middleware to authenticate socket connection
