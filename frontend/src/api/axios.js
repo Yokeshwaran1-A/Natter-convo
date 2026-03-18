@@ -2,7 +2,8 @@ import axios from 'axios'
 
 // Create axios instance with base URL pointing to backend
 const api = axios.create({
-  baseURL: 'http://localhost:5000',
+baseURL: 'https://natter-convo.onrender.com',
+
   headers: {
     'Content-Type': 'application/json'
   }

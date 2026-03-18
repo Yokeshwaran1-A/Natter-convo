@@ -4,7 +4,7 @@ import io from 'socket.io-client'
 import api from '../api/axios'
 import { useAuth } from '../App'
 
-const SOCKET_URL = 'http://localhost:5000'
+const SOCKET_URL = 'https://natter-convo.onrender.com'
 const EMOJI_OPTIONS = ['😀', '😂', '😍', '👍', '🙏', '🔥', '🎉', '❤️', '😊', '😎', '🤝', '😢', '😡', '👏', '💯', '🚀']
 
 // Helper to get full image URL
