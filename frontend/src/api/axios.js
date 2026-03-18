@@ -1,9 +1,9 @@
 import axios from 'axios'
 
 // Create axios instance with base URL pointing to backend
+const baseURL = import.meta.env.VITE_API_URL || 'https://natter-convo.onrender.com'
 const api = axios.create({
-baseURL: 'https://natter-convo.onrender.com',
-
+  baseURL,
   headers: {
     'Content-Type': 'application/json'
   }

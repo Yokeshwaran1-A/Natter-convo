@@ -43,7 +43,7 @@ export default function Auth() {
       }
     } catch (err) {
       if (!err.response) {
-        setError('Cannot connect to the server. Make sure the backend is running on port 5000.')
+        setError('Cannot connect to the server. Please check that the backend URL is correct and online.')
       } else {
         setError(err.response?.data?.message || 'Something went wrong')
       }
