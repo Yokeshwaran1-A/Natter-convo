@@ -23,6 +23,10 @@ export default function Auth() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (loading) {
+      return
+    }
+
     setLoading(true)
     setError('')
 
@@ -33,8 +37,12 @@ export default function Auth() {
         : formData
 
       const response = await api.post(endpoint, payload)
-      
+
       if (isLogin) {
+        if (!response.data?.token || !response.data?._id) {
+          throw new Error('Login response is missing required session data')
+        }
+
         login(response.data.token, response.data)
         navigate('/')
       } else {
@@ -42,10 +50,14 @@ export default function Auth() {
         setError('Account created! Please login.')
       }
     } catch (err) {
-      if (!err.response) {
+      console.error('Authentication request failed:', err)
+
+      if (err.code === 'ECONNABORTED') {
+        setError('The server took too long to respond. Please check that the backend is running and try again.')
+      } else if (!err.response) {
         setError('Cannot connect to the server. Please check that the backend URL is correct and online.')
       } else {
-        setError(err.response?.data?.message || 'Something went wrong')
+        setError(err.response?.data?.message || err.message || 'Something went wrong')
       }
     } finally {
       setLoading(false)
