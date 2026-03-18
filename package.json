@@ -2,6 +2,8 @@
   "name": "chat-clone",
   "private": true,
   "scripts": {
+    "start": "npm --prefix backend run start",
+    "postinstall": "npm --prefix backend install",
     "dev:backend": "npm --prefix backend run dev",
     "dev:frontend": "npm --prefix frontend run dev",
     "start:backend": "npm --prefix backend run start",
